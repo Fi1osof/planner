@@ -7,6 +7,15 @@ export type AuthPayloadFieldPolicy = {
 	success?: FieldPolicy<any> | FieldReadFunction<any>,
 	token?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ExpenditureItemKeySpecifier = ('CreatedBy' | 'createdAt' | 'foo' | 'id' | 'name' | 'updatedAt' | ExpenditureItemKeySpecifier)[];
+export type ExpenditureItemFieldPolicy = {
+	CreatedBy?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	foo?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type FileKeySpecifier = ('createdAt' | 'encoding' | 'filename' | 'id' | 'mimetype' | 'name' | 'path' | 'rank' | 'size' | 'updatedAt' | FileKeySpecifier)[];
 export type FileFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -20,14 +29,18 @@ export type FileFieldPolicy = {
 	size?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('signin' | 'signup' | 'singleUpload' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('createExpenditureItem' | 'signin' | 'signup' | 'singleUpload' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
+	createExpenditureItem?: FieldPolicy<any> | FieldReadFunction<any>,
 	signin?: FieldPolicy<any> | FieldReadFunction<any>,
 	signup?: FieldPolicy<any> | FieldReadFunction<any>,
 	singleUpload?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('file' | 'files' | 'filesCount' | 'me' | 'user' | 'users' | 'usersCount' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('expenditureItem' | 'expenditureItems' | 'expenditureItemsCreatedBy' | 'file' | 'files' | 'filesCount' | 'me' | 'user' | 'users' | 'usersCount' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
+	expenditureItem?: FieldPolicy<any> | FieldReadFunction<any>,
+	expenditureItems?: FieldPolicy<any> | FieldReadFunction<any>,
+	expenditureItemsCreatedBy?: FieldPolicy<any> | FieldReadFunction<any>,
 	file?: FieldPolicy<any> | FieldReadFunction<any>,
 	files?: FieldPolicy<any> | FieldReadFunction<any>,
 	filesCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -58,6 +71,10 @@ export type TypedTypePolicies = TypePolicies & {
 	AuthPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AuthPayloadKeySpecifier | (() => undefined | AuthPayloadKeySpecifier),
 		fields?: AuthPayloadFieldPolicy,
+	},
+	ExpenditureItem?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ExpenditureItemKeySpecifier | (() => undefined | ExpenditureItemKeySpecifier),
+		fields?: ExpenditureItemFieldPolicy,
 	},
 	File?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FileKeySpecifier | (() => undefined | FileKeySpecifier),

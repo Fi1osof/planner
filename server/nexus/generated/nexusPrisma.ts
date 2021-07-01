@@ -16,13 +16,15 @@ interface PrismaModels {
   User: Prisma.User
   Token: Prisma.Token
   File: Prisma.File
+  ExpenditureItem: Prisma.ExpenditureItem
+  ExpenditureItemPeriod: Prisma.ExpenditureItemPeriod
 }
 
 // Prisma input types metadata
 interface NexusPrismaInputs {
   Query: {
     users: {
-      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'username' | 'email' | 'fullname' | 'password' | 'active' | 'sudo' | 'createdAt' | 'updatedAt' | 'showEmail' | 'showFullname' | 'image' | 'Tokens' | 'Files'
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'username' | 'email' | 'fullname' | 'password' | 'active' | 'sudo' | 'createdAt' | 'updatedAt' | 'showEmail' | 'showFullname' | 'image' | 'Tokens' | 'Files' | 'ExpenditureItemsCreatedBy' | 'ExpenditureItemPeriodsCreatedBy'
       ordering: 'id' | 'username' | 'email' | 'fullname' | 'password' | 'active' | 'sudo' | 'createdAt' | 'updatedAt' | 'showEmail' | 'showFullname' | 'image'
     }
     tokens: {
@@ -32,6 +34,14 @@ interface NexusPrismaInputs {
     files: {
       filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'createdAt' | 'updatedAt' | 'path' | 'filename' | 'name' | 'mimetype' | 'encoding' | 'size' | 'rank' | 'createdById' | 'CreatedBy'
       ordering: 'id' | 'createdAt' | 'updatedAt' | 'path' | 'filename' | 'name' | 'mimetype' | 'encoding' | 'size' | 'rank' | 'createdById'
+    }
+    expenditureItems: {
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'createdAt' | 'updatedAt' | 'name' | 'createdById' | 'CreatedBy' | 'ExpenditureItemPeriod'
+      ordering: 'id' | 'createdAt' | 'updatedAt' | 'name' | 'createdById'
+    }
+    expenditureItemPeriods: {
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'createdAt' | 'updatedAt' | 'dateFrom' | 'dateTill' | 'expenditureItemId' | 'ExpenditureItem' | 'createdById' | 'CreatedBy'
+      ordering: 'id' | 'createdAt' | 'updatedAt' | 'dateFrom' | 'dateTill' | 'expenditureItemId' | 'createdById'
     }
   },
   User: {
@@ -43,11 +53,28 @@ interface NexusPrismaInputs {
       filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'createdAt' | 'updatedAt' | 'path' | 'filename' | 'name' | 'mimetype' | 'encoding' | 'size' | 'rank' | 'createdById' | 'CreatedBy'
       ordering: 'id' | 'createdAt' | 'updatedAt' | 'path' | 'filename' | 'name' | 'mimetype' | 'encoding' | 'size' | 'rank' | 'createdById'
     }
+    ExpenditureItemsCreatedBy: {
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'createdAt' | 'updatedAt' | 'name' | 'createdById' | 'CreatedBy' | 'ExpenditureItemPeriod'
+      ordering: 'id' | 'createdAt' | 'updatedAt' | 'name' | 'createdById'
+    }
+    ExpenditureItemPeriodsCreatedBy: {
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'createdAt' | 'updatedAt' | 'dateFrom' | 'dateTill' | 'expenditureItemId' | 'ExpenditureItem' | 'createdById' | 'CreatedBy'
+      ordering: 'id' | 'createdAt' | 'updatedAt' | 'dateFrom' | 'dateTill' | 'expenditureItemId' | 'createdById'
+    }
   }
   Token: {
 
   }
   File: {
+
+  }
+  ExpenditureItem: {
+    ExpenditureItemPeriod: {
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'createdAt' | 'updatedAt' | 'dateFrom' | 'dateTill' | 'expenditureItemId' | 'ExpenditureItem' | 'createdById' | 'CreatedBy'
+      ordering: 'id' | 'createdAt' | 'updatedAt' | 'dateFrom' | 'dateTill' | 'expenditureItemId' | 'createdById'
+    }
+  }
+  ExpenditureItemPeriod: {
 
   }
 }
@@ -61,6 +88,10 @@ interface NexusPrismaOutputs {
     tokens: 'Token'
     file: 'File'
     files: 'File'
+    expenditureItem: 'ExpenditureItem'
+    expenditureItems: 'ExpenditureItem'
+    expenditureItemPeriod: 'ExpenditureItemPeriod'
+    expenditureItemPeriods: 'ExpenditureItemPeriod'
   },
   Mutation: {
     createOneUser: 'User'
@@ -81,6 +112,18 @@ interface NexusPrismaOutputs {
     deleteOneFile: 'File'
     deleteManyFile: 'AffectedRowsOutput'
     upsertOneFile: 'File'
+    createOneExpenditureItem: 'ExpenditureItem'
+    updateOneExpenditureItem: 'ExpenditureItem'
+    updateManyExpenditureItem: 'AffectedRowsOutput'
+    deleteOneExpenditureItem: 'ExpenditureItem'
+    deleteManyExpenditureItem: 'AffectedRowsOutput'
+    upsertOneExpenditureItem: 'ExpenditureItem'
+    createOneExpenditureItemPeriod: 'ExpenditureItemPeriod'
+    updateOneExpenditureItemPeriod: 'ExpenditureItemPeriod'
+    updateManyExpenditureItemPeriod: 'AffectedRowsOutput'
+    deleteOneExpenditureItemPeriod: 'ExpenditureItemPeriod'
+    deleteManyExpenditureItemPeriod: 'AffectedRowsOutput'
+    upsertOneExpenditureItemPeriod: 'ExpenditureItemPeriod'
   },
   User: {
     id: 'String'
@@ -97,6 +140,8 @@ interface NexusPrismaOutputs {
     image: 'String'
     Tokens: 'Token'
     Files: 'File'
+    ExpenditureItemsCreatedBy: 'ExpenditureItem'
+    ExpenditureItemPeriodsCreatedBy: 'ExpenditureItemPeriod'
   }
   Token: {
     id: 'String'
@@ -119,6 +164,26 @@ interface NexusPrismaOutputs {
     createdById: 'String'
     CreatedBy: 'User'
   }
+  ExpenditureItem: {
+    id: 'String'
+    createdAt: 'DateTime'
+    updatedAt: 'DateTime'
+    name: 'String'
+    createdById: 'String'
+    CreatedBy: 'User'
+    ExpenditureItemPeriod: 'ExpenditureItemPeriod'
+  }
+  ExpenditureItemPeriod: {
+    id: 'String'
+    createdAt: 'DateTime'
+    updatedAt: 'DateTime'
+    dateFrom: 'DateTime'
+    dateTill: 'DateTime'
+    expenditureItemId: 'String'
+    ExpenditureItem: 'ExpenditureItem'
+    createdById: 'String'
+    CreatedBy: 'User'
+  }
 }
 
 // Helper to gather all methods relative to a model
@@ -126,6 +191,8 @@ interface NexusPrismaMethods {
   User: Typegen.NexusPrismaFields<'User'>
   Token: Typegen.NexusPrismaFields<'Token'>
   File: Typegen.NexusPrismaFields<'File'>
+  ExpenditureItem: Typegen.NexusPrismaFields<'ExpenditureItem'>
+  ExpenditureItemPeriod: Typegen.NexusPrismaFields<'ExpenditureItemPeriod'>
   Query: Typegen.NexusPrismaFields<'Query'>
   Mutation: Typegen.NexusPrismaFields<'Mutation'>
 }

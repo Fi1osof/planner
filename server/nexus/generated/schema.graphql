@@ -45,6 +45,74 @@ input DateTimeNullableFilter {
 }
 
 """
+Статья расходов
+"""
+type ExpenditureItem {
+  CreatedBy: User
+  createdAt: DateTime!
+  foo: Boolean
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+}
+
+input ExpenditureItemCreateInput {
+  name: String!
+}
+
+input ExpenditureItemListRelationFilter {
+  every: ExpenditureItemWhereInput
+  none: ExpenditureItemWhereInput
+  some: ExpenditureItemWhereInput
+}
+
+input ExpenditureItemOrderByInput {
+  createdAt: SortOrder
+  createdById: SortOrder
+  id: SortOrder
+  name: SortOrder
+  updatedAt: SortOrder
+}
+
+input ExpenditureItemPeriodListRelationFilter {
+  every: ExpenditureItemPeriodWhereInput
+  none: ExpenditureItemPeriodWhereInput
+  some: ExpenditureItemPeriodWhereInput
+}
+
+input ExpenditureItemPeriodWhereInput {
+  AND: [ExpenditureItemPeriodWhereInput!]
+  CreatedBy: UserWhereInput
+  ExpenditureItem: ExpenditureItemWhereInput
+  NOT: [ExpenditureItemPeriodWhereInput!]
+  OR: [ExpenditureItemPeriodWhereInput!]
+  createdAt: DateTimeFilter
+  createdById: StringFilter
+  dateFrom: DateTimeFilter
+  dateTill: DateTimeFilter
+  expenditureItemId: StringFilter
+  id: StringFilter
+  updatedAt: DateTimeFilter
+}
+
+input ExpenditureItemWhereInput {
+  AND: [ExpenditureItemWhereInput!]
+  CreatedBy: UserWhereInput
+  ExpenditureItemPeriod: ExpenditureItemPeriodListRelationFilter
+  NOT: [ExpenditureItemWhereInput!]
+  OR: [ExpenditureItemWhereInput!]
+  createdAt: DateTimeFilter
+  createdById: StringFilter
+  id: StringFilter
+  name: StringFilter
+  updatedAt: DateTimeFilter
+}
+
+input ExpenditureItemWhereUniqueInput {
+  id: String
+}
+
+"""
 Файл
 """
 type File {
@@ -163,6 +231,11 @@ scalar JSON
 
 type Mutation {
   """
+  Создать статью расходов
+  """
+  createExpenditureItem(data: ExpenditureItemCreateInput!): ExpenditureItem!
+
+  """
   Авторизация
   """
   signin(data: UserSigninDataInput!, where: UserWhereUniqueInput!): AuthPayload!
@@ -263,6 +336,28 @@ input NestedStringNullableFilter {
 }
 
 type Query {
+  """
+  Статья расхода
+  """
+  expenditureItem(where: ExpenditureItemWhereUniqueInput!): ExpenditureItem
+  expenditureItems(
+    cursor: ExpenditureItemWhereUniqueInput
+    orderBy: [ExpenditureItemOrderByInput!]
+    skip: Int
+    take: Int
+    where: ExpenditureItemWhereInput
+  ): [ExpenditureItem!]!
+
+  """
+  Список созданных текущим пользователем статей расходов
+  """
+  expenditureItemsCreatedBy(
+    orderBy: [ExpenditureItemOrderByInput!]
+    skip: Int
+    take: Int
+    where: ExpenditureItemWhereInput
+  ): [ExpenditureItem!]!
+
   """
   Файл
   """
@@ -456,6 +551,8 @@ input UserSignupDataInput {
 
 input UserWhereInput {
   AND: [UserWhereInput!]
+  ExpenditureItemPeriodsCreatedBy: ExpenditureItemPeriodListRelationFilter
+  ExpenditureItemsCreatedBy: ExpenditureItemListRelationFilter
   Files: FileListRelationFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]

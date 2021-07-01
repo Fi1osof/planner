@@ -10,7 +10,7 @@ import {
   AppInitialPropsCustom,
   NextPageContextCustom,
 } from './interfaces'
-import { NextSeo, NextSeoProps } from 'next-seo'
+import { NextSeo, NextSeoProps, DefaultSeo } from 'next-seo'
 import * as yup from 'yup'
 
 // TODO это для @prisma-cms/uploader
@@ -22,6 +22,7 @@ import ErrorPage from '../_Error'
 import { GlobalStyle } from 'src/theme/GlobalStyle'
 import { Context, ContextValue } from './Context'
 import { useMeQuery } from 'src/modules/gql/generated'
+import { Layout } from './Layout'
 
 const withWs = false
 
@@ -100,8 +101,14 @@ const App: MainApp<AppProps> = ({ Component, pageProps }) => {
 
     return (
       <>
+        <DefaultSeo
+          noindex
+          nofollow
+          dangerouslySetAllPagesToNoIndex
+          dangerouslySetAllPagesToNoFollow
+        />
         <NextSeo {...meta} />
-        {content}
+        <Layout>{content}</Layout>
       </>
     )
   }, [statusCode, pageProps, Component])

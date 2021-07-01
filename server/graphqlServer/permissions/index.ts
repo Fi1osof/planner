@@ -2,8 +2,8 @@ import { shield } from 'graphql-shield'
 import { Rule } from 'graphql-shield/dist/rules'
 import { NexusGenFieldTypes } from 'server/nexus/generated/nexus'
 // import { isAuthenticated } from './rules/isAuthenticated'
-// import { isSudo } from './rules/isSudo'
-// import { isOwner } from './rules/isOwner'
+import { isSudo } from './rules/isSudo'
+import { isOwner } from './rules/isOwner'
 
 type RuleTree<K extends NexusGenFieldTypes> = {
   [P in keyof K]?: RuleTreeRule<K[P]> | Rule
@@ -18,8 +18,11 @@ type RuleTreeRule<K extends Record<string, any>> = {
 const ruleTree: RuleTree<NexusGenFieldTypes> = {
   Query: {
     // me: isAuthenticated,
+
+    expenditureItems: isSudo,
   },
   Mutation: {},
+  ExpenditureItem: isOwner(),
 }
 
 export const permissions = shield(ruleTree, {

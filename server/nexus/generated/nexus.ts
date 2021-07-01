@@ -4,7 +4,7 @@
  */
 
 import { PrismaContext } from './../context/index'
-import { User, File } from '@prisma/client'
+import { User, File, ExpenditureItem } from '@prisma/client'
 import { core } from 'nexus'
 declare global {
   interface NexusGenCustomInputMethods<TypeName extends string> {
@@ -80,6 +80,64 @@ export interface NexusGenInputs {
     lte?: NexusGenScalars['DateTime'] | null // DateTime
     not?: NexusGenInputs['NestedDateTimeNullableFilter'] | null // NestedDateTimeNullableFilter
     notIn?: NexusGenScalars['DateTime'][] | null // [DateTime!]
+  }
+  ExpenditureItemCreateInput: {
+    // input type
+    name: string // String!
+  }
+  ExpenditureItemListRelationFilter: {
+    // input type
+    every?: NexusGenInputs['ExpenditureItemWhereInput'] | null // ExpenditureItemWhereInput
+    none?: NexusGenInputs['ExpenditureItemWhereInput'] | null // ExpenditureItemWhereInput
+    some?: NexusGenInputs['ExpenditureItemWhereInput'] | null // ExpenditureItemWhereInput
+  }
+  ExpenditureItemOrderByInput: {
+    // input type
+    createdAt?: NexusGenEnums['SortOrder'] | null // SortOrder
+    createdById?: NexusGenEnums['SortOrder'] | null // SortOrder
+    id?: NexusGenEnums['SortOrder'] | null // SortOrder
+    name?: NexusGenEnums['SortOrder'] | null // SortOrder
+    updatedAt?: NexusGenEnums['SortOrder'] | null // SortOrder
+  }
+  ExpenditureItemPeriodListRelationFilter: {
+    // input type
+    every?: NexusGenInputs['ExpenditureItemPeriodWhereInput'] | null // ExpenditureItemPeriodWhereInput
+    none?: NexusGenInputs['ExpenditureItemPeriodWhereInput'] | null // ExpenditureItemPeriodWhereInput
+    some?: NexusGenInputs['ExpenditureItemPeriodWhereInput'] | null // ExpenditureItemPeriodWhereInput
+  }
+  ExpenditureItemPeriodWhereInput: {
+    // input type
+    AND?: NexusGenInputs['ExpenditureItemPeriodWhereInput'][] | null // [ExpenditureItemPeriodWhereInput!]
+    CreatedBy?: NexusGenInputs['UserWhereInput'] | null // UserWhereInput
+    ExpenditureItem?: NexusGenInputs['ExpenditureItemWhereInput'] | null // ExpenditureItemWhereInput
+    NOT?: NexusGenInputs['ExpenditureItemPeriodWhereInput'][] | null // [ExpenditureItemPeriodWhereInput!]
+    OR?: NexusGenInputs['ExpenditureItemPeriodWhereInput'][] | null // [ExpenditureItemPeriodWhereInput!]
+    createdAt?: NexusGenInputs['DateTimeFilter'] | null // DateTimeFilter
+    createdById?: NexusGenInputs['StringFilter'] | null // StringFilter
+    dateFrom?: NexusGenInputs['DateTimeFilter'] | null // DateTimeFilter
+    dateTill?: NexusGenInputs['DateTimeFilter'] | null // DateTimeFilter
+    expenditureItemId?: NexusGenInputs['StringFilter'] | null // StringFilter
+    id?: NexusGenInputs['StringFilter'] | null // StringFilter
+    updatedAt?: NexusGenInputs['DateTimeFilter'] | null // DateTimeFilter
+  }
+  ExpenditureItemWhereInput: {
+    // input type
+    AND?: NexusGenInputs['ExpenditureItemWhereInput'][] | null // [ExpenditureItemWhereInput!]
+    CreatedBy?: NexusGenInputs['UserWhereInput'] | null // UserWhereInput
+    ExpenditureItemPeriod?:
+      | NexusGenInputs['ExpenditureItemPeriodListRelationFilter']
+      | null // ExpenditureItemPeriodListRelationFilter
+    NOT?: NexusGenInputs['ExpenditureItemWhereInput'][] | null // [ExpenditureItemWhereInput!]
+    OR?: NexusGenInputs['ExpenditureItemWhereInput'][] | null // [ExpenditureItemWhereInput!]
+    createdAt?: NexusGenInputs['DateTimeFilter'] | null // DateTimeFilter
+    createdById?: NexusGenInputs['StringFilter'] | null // StringFilter
+    id?: NexusGenInputs['StringFilter'] | null // StringFilter
+    name?: NexusGenInputs['StringFilter'] | null // StringFilter
+    updatedAt?: NexusGenInputs['DateTimeFilter'] | null // DateTimeFilter
+  }
+  ExpenditureItemWhereUniqueInput: {
+    // input type
+    id?: string | null // String
   }
   FileListRelationFilter: {
     // input type
@@ -304,6 +362,12 @@ export interface NexusGenInputs {
   UserWhereInput: {
     // input type
     AND?: NexusGenInputs['UserWhereInput'][] | null // [UserWhereInput!]
+    ExpenditureItemPeriodsCreatedBy?:
+      | NexusGenInputs['ExpenditureItemPeriodListRelationFilter']
+      | null // ExpenditureItemPeriodListRelationFilter
+    ExpenditureItemsCreatedBy?:
+      | NexusGenInputs['ExpenditureItemListRelationFilter']
+      | null // ExpenditureItemListRelationFilter
     Files?: NexusGenInputs['FileListRelationFilter'] | null // FileListRelationFilter
     NOT?: NexusGenInputs['UserWhereInput'][] | null // [UserWhereInput!]
     OR?: NexusGenInputs['UserWhereInput'][] | null // [UserWhereInput!]
@@ -353,6 +417,7 @@ export interface NexusGenObjects {
     success: boolean // Boolean!
     token?: string | null // String
   }
+  ExpenditureItem: ExpenditureItem
   File: File
   Mutation: {}
   Query: {}
@@ -383,6 +448,15 @@ export interface NexusGenFieldTypes {
     success: boolean // Boolean!
     token: string | null // String
   }
+  ExpenditureItem: {
+    // field return type
+    CreatedBy: NexusGenRootTypes['User'] | null // User
+    createdAt: NexusGenScalars['DateTime'] // DateTime!
+    foo: boolean | null // Boolean
+    id: string // ID!
+    name: string // String!
+    updatedAt: NexusGenScalars['DateTime'] // DateTime!
+  }
   File: {
     // field return type
     createdAt: NexusGenScalars['DateTime'] // DateTime!
@@ -398,12 +472,16 @@ export interface NexusGenFieldTypes {
   }
   Mutation: {
     // field return type
+    createExpenditureItem: NexusGenRootTypes['ExpenditureItem'] // ExpenditureItem!
     signin: NexusGenRootTypes['AuthPayload'] // AuthPayload!
     signup: NexusGenRootTypes['AuthPayload'] // AuthPayload!
     singleUpload: NexusGenRootTypes['File'] | null // File
   }
   Query: {
     // field return type
+    expenditureItem: NexusGenRootTypes['ExpenditureItem'] | null // ExpenditureItem
+    expenditureItems: NexusGenRootTypes['ExpenditureItem'][] // [ExpenditureItem!]!
+    expenditureItemsCreatedBy: NexusGenRootTypes['ExpenditureItem'][] // [ExpenditureItem!]!
     file: NexusGenRootTypes['File'] | null // File
     files: NexusGenRootTypes['File'][] // [File!]!
     filesCount: number // Int!
@@ -441,6 +519,15 @@ export interface NexusGenFieldTypeNames {
     success: 'Boolean'
     token: 'String'
   }
+  ExpenditureItem: {
+    // field return type name
+    CreatedBy: 'User'
+    createdAt: 'DateTime'
+    foo: 'Boolean'
+    id: 'ID'
+    name: 'String'
+    updatedAt: 'DateTime'
+  }
   File: {
     // field return type name
     createdAt: 'DateTime'
@@ -456,12 +543,16 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: {
     // field return type name
+    createExpenditureItem: 'ExpenditureItem'
     signin: 'AuthPayload'
     signup: 'AuthPayload'
     singleUpload: 'File'
   }
   Query: {
     // field return type name
+    expenditureItem: 'ExpenditureItem'
+    expenditureItems: 'ExpenditureItem'
+    expenditureItemsCreatedBy: 'ExpenditureItem'
     file: 'File'
     files: 'File'
     filesCount: 'Int'
@@ -492,6 +583,10 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createExpenditureItem: {
+      // args
+      data: NexusGenInputs['ExpenditureItemCreateInput'] // ExpenditureItemCreateInput!
+    }
     signin: {
       // args
       data: NexusGenInputs['UserSigninDataInput'] // UserSigninDataInput!
@@ -508,6 +603,25 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    expenditureItem: {
+      // args
+      where: NexusGenInputs['ExpenditureItemWhereUniqueInput'] // ExpenditureItemWhereUniqueInput!
+    }
+    expenditureItems: {
+      // args
+      cursor?: NexusGenInputs['ExpenditureItemWhereUniqueInput'] | null // ExpenditureItemWhereUniqueInput
+      orderBy?: NexusGenInputs['ExpenditureItemOrderByInput'][] | null // [ExpenditureItemOrderByInput!]
+      skip?: number | null // Int
+      take?: number | null // Int
+      where?: NexusGenInputs['ExpenditureItemWhereInput'] | null // ExpenditureItemWhereInput
+    }
+    expenditureItemsCreatedBy: {
+      // args
+      orderBy?: NexusGenInputs['ExpenditureItemOrderByInput'][] | null // [ExpenditureItemOrderByInput!]
+      skip?: number | null // Int
+      take?: number | null // Int
+      where?: NexusGenInputs['ExpenditureItemWhereInput'] | null // ExpenditureItemWhereInput
+    }
     file: {
       // args
       where: NexusGenInputs['FileWhereUniqueInput'] // FileWhereUniqueInput!

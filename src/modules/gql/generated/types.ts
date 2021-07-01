@@ -62,6 +62,73 @@ export interface DateTimeNullableFilter {
   notIn?: Maybe<Array<Scalars['DateTime']>>;
 }
 
+/** Статья расходов */
+export interface ExpenditureItem {
+  __typename?: 'ExpenditureItem';
+  CreatedBy?: Maybe<User>;
+  createdAt: Scalars['DateTime'];
+  foo?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+}
+
+export interface ExpenditureItemCreateInput {
+  name: Scalars['String'];
+}
+
+export interface ExpenditureItemListRelationFilter {
+  every?: Maybe<ExpenditureItemWhereInput>;
+  none?: Maybe<ExpenditureItemWhereInput>;
+  some?: Maybe<ExpenditureItemWhereInput>;
+}
+
+export interface ExpenditureItemOrderByInput {
+  createdAt?: Maybe<SortOrder>;
+  createdById?: Maybe<SortOrder>;
+  id?: Maybe<SortOrder>;
+  name?: Maybe<SortOrder>;
+  updatedAt?: Maybe<SortOrder>;
+}
+
+export interface ExpenditureItemPeriodListRelationFilter {
+  every?: Maybe<ExpenditureItemPeriodWhereInput>;
+  none?: Maybe<ExpenditureItemPeriodWhereInput>;
+  some?: Maybe<ExpenditureItemPeriodWhereInput>;
+}
+
+export interface ExpenditureItemPeriodWhereInput {
+  AND?: Maybe<Array<ExpenditureItemPeriodWhereInput>>;
+  CreatedBy?: Maybe<UserWhereInput>;
+  ExpenditureItem?: Maybe<ExpenditureItemWhereInput>;
+  NOT?: Maybe<Array<ExpenditureItemPeriodWhereInput>>;
+  OR?: Maybe<Array<ExpenditureItemPeriodWhereInput>>;
+  createdAt?: Maybe<DateTimeFilter>;
+  createdById?: Maybe<StringFilter>;
+  dateFrom?: Maybe<DateTimeFilter>;
+  dateTill?: Maybe<DateTimeFilter>;
+  expenditureItemId?: Maybe<StringFilter>;
+  id?: Maybe<StringFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+}
+
+export interface ExpenditureItemWhereInput {
+  AND?: Maybe<Array<ExpenditureItemWhereInput>>;
+  CreatedBy?: Maybe<UserWhereInput>;
+  ExpenditureItemPeriod?: Maybe<ExpenditureItemPeriodListRelationFilter>;
+  NOT?: Maybe<Array<ExpenditureItemWhereInput>>;
+  OR?: Maybe<Array<ExpenditureItemWhereInput>>;
+  createdAt?: Maybe<DateTimeFilter>;
+  createdById?: Maybe<StringFilter>;
+  id?: Maybe<StringFilter>;
+  name?: Maybe<StringFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+}
+
+export interface ExpenditureItemWhereUniqueInput {
+  id?: Maybe<Scalars['String']>;
+}
+
 /** Файл */
 export interface File {
   __typename?: 'File';
@@ -153,6 +220,8 @@ export interface IntFilter {
 
 export interface Mutation {
   __typename?: 'Mutation';
+  /** Создать статью расходов */
+  createExpenditureItem: ExpenditureItem;
   /** Авторизация */
   signin: AuthPayload;
   /** Регистрация */
@@ -160,6 +229,11 @@ export interface Mutation {
   /** Загрузка файла */
   singleUpload?: Maybe<File>;
 }
+
+
+export type MutationCreateExpenditureItemArgs = {
+  data: ExpenditureItemCreateInput;
+};
 
 
 export type MutationSigninArgs = {
@@ -257,6 +331,11 @@ export interface NestedStringNullableFilter {
 
 export interface Query {
   __typename?: 'Query';
+  /** Статья расхода */
+  expenditureItem?: Maybe<ExpenditureItem>;
+  expenditureItems: Array<ExpenditureItem>;
+  /** Список созданных текущим пользователем статей расходов */
+  expenditureItemsCreatedBy: Array<ExpenditureItem>;
   /** Файл */
   file?: Maybe<File>;
   /** Список файлов */
@@ -271,6 +350,28 @@ export interface Query {
   /** Количество пользователей */
   usersCount: Scalars['Int'];
 }
+
+
+export type QueryExpenditureItemArgs = {
+  where: ExpenditureItemWhereUniqueInput;
+};
+
+
+export type QueryExpenditureItemsArgs = {
+  cursor?: Maybe<ExpenditureItemWhereUniqueInput>;
+  orderBy?: Maybe<Array<ExpenditureItemOrderByInput>>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ExpenditureItemWhereInput>;
+};
+
+
+export type QueryExpenditureItemsCreatedByArgs = {
+  orderBy?: Maybe<Array<ExpenditureItemOrderByInput>>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ExpenditureItemWhereInput>;
+};
 
 
 export type QueryFileArgs = {
@@ -428,6 +529,8 @@ export interface UserSignupDataInput {
 
 export interface UserWhereInput {
   AND?: Maybe<Array<UserWhereInput>>;
+  ExpenditureItemPeriodsCreatedBy?: Maybe<ExpenditureItemPeriodListRelationFilter>;
+  ExpenditureItemsCreatedBy?: Maybe<ExpenditureItemListRelationFilter>;
   Files?: Maybe<FileListRelationFilter>;
   NOT?: Maybe<Array<UserWhereInput>>;
   OR?: Maybe<Array<UserWhereInput>>;

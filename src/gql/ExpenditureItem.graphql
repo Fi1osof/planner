@@ -1,0 +1,32 @@
+query expenditureItemsCreatedBy(
+  $orderBy: [ExpenditureItemOrderByInput!]
+  $where: ExpenditureItemWhereInput
+) {
+  expenditureItemsCreatedBy(orderBy: $orderBy, where: $where) {
+    ...expenditureItem
+  }
+}
+
+query expenditureItemGetUnique($where: ExpenditureItemWhereUniqueInput!) {
+  expenditureItem(where: $where) {
+    ...expenditureItem
+  }
+}
+
+mutation createExpenditureItem($data: ExpenditureItemCreateInput!) {
+  createExpenditureItem(data: $data) {
+    ...expenditureItem
+  }
+}
+
+fragment expenditureItemNoNesting on ExpenditureItem {
+  id
+  createdAt
+  updatedAt
+  name
+  foo
+}
+
+fragment expenditureItem on ExpenditureItem {
+  ...expenditureItemNoNesting
+}
